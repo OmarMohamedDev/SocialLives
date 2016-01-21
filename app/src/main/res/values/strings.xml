@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Flickr Photo Neighbour - Know who live around you through Flickr!</string>
+    <string name="title_item_detail">Flickr Photo Neighbour </string>
+    <string name="search_images">Search new images</string>
+    <string name="checkbox">Checkbox</string>
+    <string name="title_full_screen">Fullscreen View</string>
+    <string name="image_information">Here i will show the image information</string>
+    <string name="label_save_button">Save Image</string>
+    <string name="url_images_not_found">http://bit.ly/1qDjat9</string>
+    <string name="images_not_found">Images not found</string>
+    <string name="any">any</string>
+
+</resources>

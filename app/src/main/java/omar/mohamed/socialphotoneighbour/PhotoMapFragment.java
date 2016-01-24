@@ -34,12 +34,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gmail.yuyang226.flickr.FlickrException;
-import com.gmail.yuyang226.flickr.Parameter;
-import com.gmail.yuyang226.flickr.REST;
-import com.gmail.yuyang226.flickr.Response;
-import com.gmail.yuyang226.flickr.Transport;
-import com.gmail.yuyang226.flickr.photos.GeoData;
+import com.googlecode.flickrjandroid.FlickrException;
+import com.googlecode.flickrjandroid.Parameter;
+import com.googlecode.flickrjandroid.REST;
+import com.googlecode.flickrjandroid.Response;
+import com.googlecode.flickrjandroid.Transport;
+import com.googlecode.flickrjandroid.photos.GeoData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;

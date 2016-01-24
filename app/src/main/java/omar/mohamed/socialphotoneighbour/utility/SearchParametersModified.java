@@ -5,9 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.gmail.yuyang226.flickr.FlickrException;
-import com.gmail.yuyang226.flickr.Parameter;
-import com.gmail.yuyang226.flickr.util.StringUtilities;
+import com.googlecode.flickrjandroid.FlickrException;
+import com.googlecode.flickrjandroid.Parameter;
+import com.googlecode.flickrjandroid.util.StringUtilities;
 
 import java.util.Date;
 import java.util.List;

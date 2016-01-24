@@ -2,11 +2,11 @@ package omar.mohamed.socialphotoneighbour.utility;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import com.gmail.yuyang226.flickr.Flickr;
-import com.gmail.yuyang226.flickr.REST;
-import com.gmail.yuyang226.flickr.RequestContext;
-import com.gmail.yuyang226.flickr.oauth.OAuth;
-import com.gmail.yuyang226.flickr.oauth.OAuthToken;
+import com.googlecode.flickrjandroid.Flickr;
+import com.googlecode.flickrjandroid.REST;
+import com.googlecode.flickrjandroid.RequestContext;
+import com.googlecode.flickrjandroid.oauth.OAuth;
+import com.googlecode.flickrjandroid.oauth.OAuthToken;
 
 public final class FlickrHelper {
 

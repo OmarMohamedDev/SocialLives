@@ -11,5 +11,8 @@
     <string name="url_images_not_found">http://bit.ly/1qDjat9</string>
     <string name="images_not_found">Images not found</string>
     <string name="any">any</string>
+    <string name="connection_failed">Connection Failed</string>
+    <string name="connected">Connected</string>
+    <string name="connection_suspended">Connection Suspended</string>
 
 </resources>

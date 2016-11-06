@@ -36,25 +36,25 @@ public class PhotoGalleryFragment extends Fragment {
     
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-      super.onViewCreated(view, savedInstanceState);
-      GridView gv = (GridView) getView().findViewById(R.id.grid_view);
-      actualImagesList = ItemListActivity.closestImagesList;
-      GridViewAdapter adapter = new GridViewAdapter(getActivity(),actualImagesList);
-      gv.setAdapter(adapter);
-      gv.setOnItemClickListener(new OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> parent, View v,
-                   int position, long id) {
+        super.onViewCreated(view, savedInstanceState);
+        GridView gv = (GridView) getView().findViewById(R.id.grid_view);
+        actualImagesList = ItemListActivity.closestImagesList;
+        if (actualImagesList != null) {
+            GridViewAdapter adapter = new GridViewAdapter(getActivity(), actualImagesList);
+            gv.setAdapter(adapter);
+            gv.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
 
-               // Sending image url to FullScreenActivity
-               Intent i = new Intent(getActivity().getApplicationContext(), FullScreenActivity.class);
+                    // Sending image url to FullScreenActivity
+                    Intent i = new Intent(getActivity().getApplicationContext(), FullScreenActivity.class);
 
-               i.putExtra("position", position);
-               startActivity(i);
-           }
-       });
+                    i.putExtra("position", position);
+                    startActivity(i);
+                }
+            });
 
+        }
     }
-    
-   
  }

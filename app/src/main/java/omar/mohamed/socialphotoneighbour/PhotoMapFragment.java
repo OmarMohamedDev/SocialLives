@@ -35,6 +35,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.googlecode.flickrjandroid.FlickrException;
@@ -89,8 +90,14 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
             StrictMode.setThreadPolicy(policy);
         }
 
-        mMapFragment.getMapAsync(this);
         setUpMapIfNeeded(mMapView);
+
+        if(mMapFragment != null) {
+            mMapFragment.getMapAsync(this);
+        } else {
+            Toast.makeText(getContext(), R.string.map_not_available_try_again_later,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -100,8 +107,13 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
         mMapFragment.getMapAsync(this);
         setUpMapIfNeeded(mMapView);
 
-        clusterManager = new ClusterManager<MyItem>(context, mMapView);
-        mMapView.setOnCameraChangeListener(clusterManager);
+        if (mMapView != null) {
+            clusterManager = new ClusterManager<MyItem>(context, mMapView);
+            mMapView.setOnCameraChangeListener(clusterManager);
+        } else {
+            Toast.makeText(getContext(), R.string.map_not_available_try_again_later,
+                    Toast.LENGTH_SHORT).show();
+        }
 
         if (!(actualImagesList == null))
             lookAroundForNewMarkers(actualImagesList);
@@ -186,10 +198,12 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
                     }
 
                     if (tempGeoDataContainer != null)
-                        PhotoMapFragment.clusterManager.addItem(new MyItem(
-                                new LatLng(tempGeoDataContainer.getLatitude(),
-                                        tempGeoDataContainer.getLongitude())));
-
+                        if(PhotoMapFragment.clusterManager != null) {
+                            PhotoMapFragment.clusterManager.addItem(new MyItem(
+                                    new LatLng(tempGeoDataContainer.getLatitude(),
+                                            tempGeoDataContainer.getLongitude())));
+                        }
+                        
                     Log.d("Test", "Is inside onLocationChanged - ending handling the image"
                             + imageIndex.getTitle());
 

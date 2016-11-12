@@ -14,5 +14,6 @@
     <string name="connection_failed">Connection Failed</string>
     <string name="connected">Connected</string>
     <string name="connection_suspended">Connection Suspended</string>
+    <string name="map_not_available_try_again_later">Uploads map not available</string>
 
 </resources>

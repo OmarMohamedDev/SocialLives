@@ -12,14 +12,15 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -49,7 +50,7 @@ import omar.mohamed.socialphotoneighbour.utility.ImageInfo;
  * {@link ItemDetailFragment}.
  * <p>
  */
-public class ItemListActivity extends FragmentActivity implements
+public class ItemListActivity extends AppCompatActivity implements
         ItemListFragment.Callbacks,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -70,9 +71,7 @@ public class ItemListActivity extends FragmentActivity implements
     public static Location currentLocation;
     private GoogleApiClient mGoogleApiClient;
     //
-    private BackgroundService backgroundService;
     private boolean isChecked;
-    private MenuItem tempMenu;
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
     public static ArrayList<ImageInfo> closestImagesList;

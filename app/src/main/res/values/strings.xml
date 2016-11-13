@@ -15,5 +15,7 @@
     <string name="connected">Connected</string>
     <string name="connection_suspended">Connection Suspended</string>
     <string name="map_not_available_try_again_later">Uploads map not available</string>
+    <string name="you_are_here">You Are Here!</string>
+    <string name="error_my_location_permissions_not_granted">The application requires your location to work properly</string>
 
 </resources>

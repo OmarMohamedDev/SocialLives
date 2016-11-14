@@ -4,7 +4,6 @@
     <string name="app_name">Social Photo Neighbour</string>
     <string name="title_item_detail">Social Photo Neighbour </string>
     <string name="search_images">Search new images</string>
-    <string name="checkbox">Checkbox</string>
     <string name="title_full_screen">Fullscreen View</string>
     <string name="image_information">Here i will show the image information</string>
     <string name="label_save_button">Save Image</string>
@@ -14,8 +13,7 @@
     <string name="connection_failed">Connection Failed</string>
     <string name="connected">Connected</string>
     <string name="connection_suspended">Connection Suspended</string>
-    <string name="map_not_available_try_again_later">Uploads map not available</string>
-    <string name="you_are_here">You Are Here!</string>
     <string name="error_my_location_permissions_not_granted">The application requires your location to work properly</string>
+    <string name="grid_view_not_found">Internal Problem occurred. Please, try again later</string>
 
 </resources>

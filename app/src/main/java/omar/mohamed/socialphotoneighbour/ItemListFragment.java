@@ -1,14 +1,12 @@
 package omar.mohamed.socialphotoneighbour;
 
-import java.io.IOException;
-
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.IOException;
 
 import omar.mohamed.socialphotoneighbour.dummy.DummyContent;
 import omar.mohamed.socialphotoneighbour.onepane.ItemDetailFragment;
@@ -45,12 +43,12 @@ public class ItemListFragment extends ListFragment {
    * implement. This mechanism allows activities to be notified of item
    * selections.
    */
-  public interface Callbacks {
+  interface Callbacks {
     /**
      * Callback for when an item has been selected.
-     * @throws IOException 
+     * @throws IOException Input/Output Exception
      */
-    public void onItemSelected(String id) throws IOException;
+    void onItemSelected(String id) throws IOException;
   }
 
   /**
@@ -73,9 +71,7 @@ public class ItemListFragment extends ListFragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    // TODO: replace with a real list adapter.
-    setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+    setListAdapter(new ArrayAdapter<>(getActivity(),
         android.R.layout.simple_list_item_activated_1, android.R.id.text1,
         DummyContent.ITEMS));
   }
@@ -90,27 +86,6 @@ public class ItemListFragment extends ListFragment {
       setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
     }
 
-  }
-
-  @Override
-  public void onAttach(Activity activity) {
-    super.onAttach(activity);
-
-    // Activities containing this fragment must implement its callbacks.
-    if (!(activity instanceof Callbacks)) {
-      throw new IllegalStateException(
-          "Activity must implement fragment's callbacks.");
-    }
-
-    mCallbacks = (Callbacks) activity;
-  }
-
-  @Override
-  public void onDetach() {
-    super.onDetach();
-
-    // Reset the active callbacks interface to the dummy implementation.
-    mCallbacks = sDummyCallbacks;
   }
 
   @Override

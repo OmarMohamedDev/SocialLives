@@ -1,31 +1,10 @@
 package omar.mohamed.socialphotoneighbour.utility;
 
-import java.util.ArrayList;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
-import java.io.BufferedReader;
+import android.app.IntentService;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import omar.mohamed.socialphotoneighbour.R;
-import omar.mohamed.socialphotoneighbour.R.string;
-import omar.mohamed.socialphotoneighbour.ItemListActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.googlecode.flickrjandroid.Flickr;
 import com.googlecode.flickrjandroid.FlickrException;
 import com.googlecode.flickrjandroid.Parameter;
 import com.googlecode.flickrjandroid.REST;
@@ -38,59 +17,66 @@ import com.googlecode.flickrjandroid.photos.GeoData;
 import com.googlecode.flickrjandroid.photos.Photo;
 import com.googlecode.flickrjandroid.photos.PhotoList;
 import com.googlecode.flickrjandroid.photos.PhotoUtils;
-import com.googlecode.flickrjandroid.photos.SearchParameters;
-import com.googlecode.flickrjandroid.photos.Size;
 import com.googlecode.flickrjandroid.util.IOUtilities;
 import com.googlecode.flickrjandroid.util.UrlUtilities;
-import com.google.android.gms.maps.model.LatLng;
 
-import android.app.IntentService;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Location;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
+import org.json.JSONException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import omar.mohamed.socialphotoneighbour.ItemListActivity;
+import omar.mohamed.socialphotoneighbour.R;
 
 public class  BackgroundService extends IntentService {
 
   public static final int PHOTOS_PER_TIME_EVERY_SEARCH = 500;
   public static final double SEARCH_RADIUS = 0.2;
   public static final String METHOD_SEARCH = "flickr.photos.search";
-  private Integer totalCount, currentIndex;
   protected static List<Photo> photos;
   private Context mContext;
-  private final String IMAGE_NOT_FOUND;
-  private Transport transport;
-  private GeoData tempGeoDataContainer;
-  private List<Size> sizes;
-  private Bundle extras;
+  private String IMAGE_NOT_FOUND;
   protected static ArrayList<ImageInfo> resultList;
-  
-  public BackgroundService() { 
-    super("BackgroundService"); 
-    this.mContext = ItemListActivity.context;
-    IMAGE_NOT_FOUND = mContext.getResources().getString(R.string.images_not_found);
-  } 
-  
-  public BackgroundService(String name) {
-    super(name);
-    this.mContext = ItemListActivity.context;
-    IMAGE_NOT_FOUND = mContext.getResources().getString(R.string.images_not_found);
-  }
+  public static final String API_KEY = "01bd8e557c0167f56bbc1d82e5e6370e"; //$NON-NLS-1$
 
-  @Override
+    public BackgroundService() {
+        super("BackgroundService");
+    }
+
+    public BackgroundService(String name, Context mContext) {
+        super(name);
+        this.mContext = mContext;
+    }
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        mContext = getApplicationContext();
+
+        if (mContext != null) {
+            IMAGE_NOT_FOUND = mContext.getResources().getString(R.string.images_not_found);
+        }
+    }
+
+
+    @Override
   protected void onHandleIntent(Intent workIntent) {
     String actualLatitude;
-    String actualLongitude; 
-    FlickrHelper helper;
-    
-    Flickr f; 
+    String actualLongitude;
+
     if(ItemListActivity.currentLocation != null){
       actualLatitude = String.valueOf(ItemListActivity.currentLocation.getLatitude());
       actualLongitude = String.valueOf(ItemListActivity.currentLocation.getLongitude());
@@ -100,9 +86,8 @@ public class  BackgroundService extends IntentService {
       actualLatitude = String.valueOf(0);
       actualLongitude = String.valueOf(0);
     }
-    
-    f = FlickrHelper.getInstance().getFlickr();
-    Set<String> extras = new HashSet<String>();
+
+    Set<String> extras = new HashSet<>();
     extras.add("description"); //$NON-NLS-1$
     extras.add("date_taken"); //$NON-NLS-1$
     extras.add("date_upload"); //$NON-NLS-1$
@@ -132,8 +117,8 @@ public class  BackgroundService extends IntentService {
       e1.printStackTrace();
     } 
      
-    resultList = new ArrayList<ImageInfo>();
-  //If not are photos around the user
+    resultList = new ArrayList<>();
+    //If not are photos around the user
     if(photos==null){ 
       //Instantiate a new PhotoList element
       photos = new PhotoList();
@@ -158,11 +143,8 @@ public class  BackgroundService extends IntentService {
       photos.add(temp);
     }
 
-        totalCount = photos.size();
-        currentIndex = 0;
         for (Photo photo : photos) {
-            currentIndex++;
-            
+
             try{
             resultList.add(new ImageInfo(photo.getId(),photo.getTitle(),photo.getMediumUrl() ,photo.getDescription(),
                 photo.getDateTaken(),photo.getDatePosted(), photo.getOwner().getUsername()));
@@ -170,22 +152,18 @@ public class  BackgroundService extends IntentService {
             catch(Exception e){
             Log.d("print","Problem about geodata.");
             }
-       
-    
+
         }
         
         ItemListActivity.closestImagesList = resultList;
-    
-        
 
   }
 
-
-  private List<Photo> imageSearch(SearchParametersModified searchParam, int perPage, int page) 
+    private List<Photo> imageSearch(SearchParametersModified searchParam, int perPage, int page)
       throws IOException, FlickrException, JSONException, ParserConfigurationException {
-      List<Parameter> parameters = new ArrayList<Parameter>();
+      List<Parameter> parameters = new ArrayList<>();
       parameters.add(new Parameter("method", METHOD_SEARCH));
-      parameters.add(new Parameter("api_key", FlickrHelper.API_KEY));
+      parameters.add(new Parameter("api_key", API_KEY));
       parameters.addAll(searchParam.getAsParameters());
       if (perPage > 0) {
           parameters.add(new Parameter("per_page", "" + perPage));
@@ -193,7 +171,7 @@ public class  BackgroundService extends IntentService {
       if (page > 0) {
           parameters.add(new Parameter("page", "" + page));
       }
-      transport = new REST();
+      Transport transport = new REST();
       Response response = getModified(transport.getPath(), parameters);
       if (response.isError()) {
           throw new FlickrException(response.getErrorCode(), response.getErrorMessage());
@@ -216,7 +194,7 @@ public class  BackgroundService extends IntentService {
     try {
         in = getInputStreamModified(path, parameters);
         rd = new BufferedReader(new InputStreamReader(in, OAuthUtils.ENC));
-        final StringBuffer buf = new StringBuffer();
+        final StringBuilder buf = new StringBuilder();
         String line;
         while ((line = rd.readLine()) != null) {
             buf.append(line);

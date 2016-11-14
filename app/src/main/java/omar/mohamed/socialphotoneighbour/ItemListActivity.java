@@ -1,9 +1,6 @@
 package omar.mohamed.socialphotoneighbour;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -13,17 +10,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -56,6 +50,7 @@ public class ItemListActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
 
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1;
     private static boolean firstTime = true;
     public static final String CHECKBOX_VALUE = "CheckboxValue";
     //Geolocation variables
@@ -66,7 +61,6 @@ public class ItemListActivity extends AppCompatActivity implements
     private static final int FASTEST_INTERVAL_IN_SECONDS = 8;
     private static final long FASTEST_INTERVAL =
             MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
-    public static Context context;
     private LocationRequest locationRequest;
     public static Location currentLocation;
     private GoogleApiClient mGoogleApiClient;
@@ -82,13 +76,10 @@ public class ItemListActivity extends AppCompatActivity implements
      * device.
      */
     private boolean mTwoPane;
-    private GoogleApiClient.ConnectionCallbacks mConnectionCallbacks;
-    private GoogleApiClient.OnConnectionFailedListener mOnConnectionFailedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getApplicationContext();
         setContentView(R.layout.activity_item_list);
         mServiceIntent = new Intent(this, BackgroundService.class);
 
@@ -120,7 +111,7 @@ public class ItemListActivity extends AppCompatActivity implements
         // Set the fastest update interval to 1 second
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
 
-        mConnectionCallbacks = new GoogleApiClient.ConnectionCallbacks() {
+        GoogleApiClient.ConnectionCallbacks mConnectionCallbacks = new GoogleApiClient.ConnectionCallbacks() {
             @Override
             public void onConnected(@Nullable Bundle bundle) {
                 Toast.makeText(getBaseContext(), R.string.connected, Toast.LENGTH_SHORT).show();
@@ -132,7 +123,7 @@ public class ItemListActivity extends AppCompatActivity implements
             }
         };
 
-        mOnConnectionFailedListener = new GoogleApiClient.OnConnectionFailedListener() {
+        GoogleApiClient.OnConnectionFailedListener mOnConnectionFailedListener = new GoogleApiClient.OnConnectionFailedListener() {
             @Override
             public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
                 Toast.makeText(getBaseContext(), R.string.connection_failed, Toast.LENGTH_SHORT).show();
@@ -149,17 +140,16 @@ public class ItemListActivity extends AppCompatActivity implements
     }
 
     protected boolean isPlayServicesAvailable() {
-        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (status == ConnectionResult.SUCCESS) {
-            return (true);
-        } else if (GooglePlayServicesUtil.isUserRecoverableError(status)) {
-            // deal with error
-        } else {
-            // maps is not available
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int result = googleAPI.isGooglePlayServicesAvailable(this);
+        if(result != ConnectionResult.SUCCESS) {
+            if(googleAPI.isUserResolvableError(result)) {
+                googleAPI.getErrorDialog(this, result,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }
+            return false;
         }
-
-        return (false);
-
+        return true;
 
     }
 
@@ -183,7 +173,7 @@ public class ItemListActivity extends AppCompatActivity implements
         editor.putBoolean("isChecked", isChecked);
 
         // Commit the edits!
-        editor.commit();
+        editor.apply();
     }
 
     @Override
@@ -197,7 +187,7 @@ public class ItemListActivity extends AppCompatActivity implements
         editor.putBoolean("isChecked", isChecked);
 
         // Commit the edits!
-        editor.commit();
+        editor.apply();
     }
 
     @Override
@@ -213,7 +203,7 @@ public class ItemListActivity extends AppCompatActivity implements
     /**
      * Callback method from {@link ItemListFragment.Callbacks} indicating that the
      * item with the given ID was selected.
-     * @throws IOException
+     * @throws IOException Input/Output Exception
      */
     @Override
     public void onItemSelected(String id) throws IOException {
@@ -321,29 +311,6 @@ public class ItemListActivity extends AppCompatActivity implements
     private final static int
             CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
-    //Define a DialogFragment that displays the error dialog
-    public static class ErrorDialogFragment extends DialogFragment {
-        // Global field to contain the error dialog
-        private Dialog mDialog;
-
-        // Default constructor. Sets the dialog field to null
-        public ErrorDialogFragment() {
-            super();
-            mDialog = null;
-        }
-
-        // Set the dialog to display
-        public void setDialog(Dialog dialog) {
-            mDialog = dialog;
-        }
-
-        // Return a Dialog to the DialogFragment.
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            return mDialog;
-        }
-    }
-
     /*
      * Handle results returned to the FragmentActivity
      * by Google Play services
@@ -370,32 +337,12 @@ public class ItemListActivity extends AppCompatActivity implements
         }
     }
 
-    private boolean servicesConnected() {
-        // Check that Google Play services is available
-        int resultCode =
-                GooglePlayServicesUtil.
-                        isGooglePlayServicesAvailable(this);
-        // If Google Play services is available
-        if (ConnectionResult.SUCCESS == resultCode) {
-            // In debug mode, log the status
-            Log.d("Location Updates",
-                    "Google Play services is available.");
-            // Continue
-            return true;
-            // Google Play services was not available for some reason
-        } else {
-            Toast.makeText(getApplicationContext(), "CONNECTION_FAILURE_RESOLUTION_REQUEST",
-                    Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
-
     /*
      * Called by Location Services if the attempt to
      * Location Services fails.
      */
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
        /*
         * Google Play services can resolve some errors it detects.
         * If the error has a resolution, try sending an Intent to
@@ -436,14 +383,13 @@ public class ItemListActivity extends AppCompatActivity implements
     @Override
     public void onConnected(Bundle arg0) {
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
             return;
         }
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);

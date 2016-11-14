@@ -41,7 +41,6 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 import omar.mohamed.socialphotoneighbour.utility.BackgroundService;
-import omar.mohamed.socialphotoneighbour.utility.FlickrHelper;
 import omar.mohamed.socialphotoneighbour.utility.ImageInfo;
 import omar.mohamed.socialphotoneighbour.utility.MyItem;
 
@@ -55,7 +54,6 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
     protected static ArrayList<ImageInfo> actualImagesList;
     private GoogleMap mMapView;
     protected LatLng mCurrentLocation;
-    private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
     private ClusterManager<MyItem> mClusterManager;
     private Context mContext;
@@ -64,6 +62,7 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
     public static final String METHOD_GET_LOCATION = "flickr.photos.geo.getLocation";
     private final int REQUEST_PERMISSION_LOCATION_FINE = 1;
     private boolean mLocationPermissionGranted;
+    public static final String API_KEY = "01bd8e557c0167f56bbc1d82e5e6370e"; //$NON-NLS-1$
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,7 +147,7 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
 
                 CameraPosition cameraPosition = new CameraPosition.Builder()
                         .target(mCurrentLocation)  // Sets the center of the map to the user location
-                        .zoom(17)                   // Sets the zoom
+                        .zoom(80)                   // Sets the zoom
                         .tilt(30)                   // Sets the tilt of the camera to 30 degrees
                         .build();                   // Creates a CameraPosition from the builder
                 mMapView.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -161,12 +160,12 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
                 }
             });
 
-            if (!(actualImagesList == null)) {
+            if (actualImagesList != null) {
                 lookAroundForNewMarkers(actualImagesList);
+            } else {
+
             }
 
-            Toast.makeText(mContext, R.string.error_my_location_permissions_not_granted,
-                    Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(mContext, R.string.error_my_location_permissions_not_granted,
                     Toast.LENGTH_SHORT).show();
@@ -255,8 +254,6 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
                 }
             }
         }).start();
-
-
     }
 
     @Override
@@ -275,7 +272,7 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
     public GeoData getPhotoLocation(String photoId) throws IOException, FlickrException, JSONException {
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(new Parameter("method", METHOD_GET_LOCATION));
-        parameters.add(new Parameter("api_key", FlickrHelper.API_KEY));
+        parameters.add(new Parameter("api_key", API_KEY));
         parameters.add(new Parameter("photo_id", photoId));
 
         try {

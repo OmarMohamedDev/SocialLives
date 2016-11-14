@@ -1,11 +1,6 @@
 package omar.mohamed.socialphotoneighbour.utility;
 
-import java.net.URL;
 import java.util.Date;
-
-import android.net.Uri;
-
-import com.google.android.gms.maps.model.LatLng;
 
 public class ImageInfo {
     private String id;
@@ -15,14 +10,9 @@ public class ImageInfo {
     private Date dateTaken;
     private Date dateUpload;
     private String ownerName;
-    private LatLng imageCoordinates;
-   
-    public ImageInfo(){
-      
-    }
     
-    public ImageInfo(String id, String title, String image, String description, Date dateTaken, 
-        Date dateUpload, String ownerName){
+    ImageInfo(String id, String title, String image, String description, Date dateTaken,
+              Date dateUpload, String ownerName){
       this.id = id;
       this.title = title;
       this.image = image;
@@ -61,39 +51,11 @@ public class ImageInfo {
       return this.ownerName;
     }
     
-    public LatLng getImageCoordinates(){
-      return this.imageCoordinates;
-    }
-    
     public void setId(String id){
       this.id = id;
     }
     
-    public void setTitle(String title){
-      this.title = title;
-    }
-    
     public void setImage(String image){
       this.image = image;
-    }
-    
-    public void setDescription(String description){
-      this.description = description;
-    }
-    
-    public void setDateTaken(Date dateTaken){
-      this.dateTaken = dateTaken;
-    }
-    
-    public void setDateUpload(Date dateUpload){
-      this.dateTaken = dateTaken;
-    }
-    
-    public void setOwnerName(String ownerName){
-      this.ownerName = ownerName;
-    }
-    
-    public void setImageCoordinates(LatLng imageCoordinates){
-      this.imageCoordinates = imageCoordinates;
     }
 }

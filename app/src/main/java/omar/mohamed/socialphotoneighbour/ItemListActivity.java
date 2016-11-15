@@ -25,24 +25,9 @@ import com.google.android.gms.location.LocationServices;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import omar.mohamed.socialphotoneighbour.onepane.ItemDetailActivity;
-import omar.mohamed.socialphotoneighbour.onepane.ItemDetailFragment;
-import omar.mohamed.socialphotoneighbour.utility.BackgroundService;
-import omar.mohamed.socialphotoneighbour.utility.ImageInfo;
-
 
 /**
- * An activity representing a list of Items. This activity has different
- * presentations for handset and tablet-size devices. On handsets, the activity
- * presents a list of items, which when touched, lead to a
- * {@link ItemDetailActivity} representing item details. On tablets, the
- * activity presents the list of items and item details side-by-side using two
- * vertical panes.
- * <p>
- * The activity makes heavy use of fragments. The list of items is a
- * {@link ItemListFragment} and the item details (if present) is a
- * {@link ItemDetailFragment}.
- * <p>
+ * An activity representing a list of Items.
  */
 public class ItemListActivity extends AppCompatActivity implements
         ItemListFragment.Callbacks,
@@ -216,32 +201,22 @@ public class ItemListActivity extends AppCompatActivity implements
             }
             firstTime = false;
         }
-        if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
 
-            if (Integer.parseInt(id) == 1) {
-                PhotoGalleryFragment.actualImagesList = closestImagesList;
-                PhotoGalleryFragment fragment = new PhotoGalleryFragment();
+        if (Integer.parseInt(id) == 1) {
+            PhotoGalleryFragment.actualImagesList = closestImagesList;
+            PhotoGalleryFragment fragment = new PhotoGalleryFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.item_detail_container, fragment).commit();
+        } else {
+            if (isPlayServicesAvailable()) {
+                PhotoMapFragment fragment = new PhotoMapFragment();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.item_detail_container, fragment).commit();
-            } else {
-                if (isPlayServicesAvailable()) {
-                    PhotoMapFragment fragment = new PhotoMapFragment();
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.item_detail_container, fragment).commit();
-                } else
-                    throw new IOException("Google Play Service not available");
-            }
-
-        } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
-            startActivity(detailIntent);
+            } else
+                throw new IOException("Google Play Service not available");
         }
+
+
     }
 
     @Override

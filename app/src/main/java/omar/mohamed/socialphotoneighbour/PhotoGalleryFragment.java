@@ -13,9 +13,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import omar.mohamed.socialphotoneighbour.utility.GridViewAdapter;
-import omar.mohamed.socialphotoneighbour.utility.ImageInfo;
-
 
 public class PhotoGalleryFragment extends Fragment {
   protected static ArrayList<ImageInfo> actualImagesList;

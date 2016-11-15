@@ -8,14 +8,9 @@ import android.widget.ListView;
 
 import java.io.IOException;
 
-import omar.mohamed.socialphotoneighbour.dummy.DummyContent;
-import omar.mohamed.socialphotoneighbour.onepane.ItemDetailFragment;
 
 /**
- * A list fragment representing a list of Items. This fragment also supports
- * tablet devices by allowing list items to be given an 'activated' state upon
- * selection. This helps indicate which item is currently being viewed in a
- * {@link ItemDetailFragment}.
+ * A list fragment representing a list of Items. 
  * <p>
  * 
  */
@@ -73,7 +68,7 @@ public class ItemListFragment extends ListFragment {
     super.onCreate(savedInstanceState);
     setListAdapter(new ArrayAdapter<>(getActivity(),
         android.R.layout.simple_list_item_activated_1, android.R.id.text1,
-        DummyContent.ITEMS));
+        ListContent.ITEMS));
   }
 
   @Override
@@ -96,7 +91,7 @@ public class ItemListFragment extends ListFragment {
     // Notify the active callbacks interface (the activity, if the
     // fragment is attached to one) that an item has been selected.
     try {
-      mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+      mCallbacks.onItemSelected(ListContent.ITEMS.get(position).id);
     } catch (IOException e) {
       e.printStackTrace();
     }

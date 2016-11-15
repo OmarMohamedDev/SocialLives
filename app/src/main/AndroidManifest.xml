@@ -31,7 +31,7 @@
             android:value="AIzaSyCMKxH_EcA4zKJOGKpyAs7fBDCUjk0y0oE" />
 
         <service
-            android:name="omar.mohamed.socialphotoneighbour.utility.BackgroundService"
+            android:name="omar.mohamed.socialphotoneighbour.BackgroundService"
             android:exported="false" />
 
         <activity

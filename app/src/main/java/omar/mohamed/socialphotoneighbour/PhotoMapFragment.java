@@ -40,10 +40,6 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import omar.mohamed.socialphotoneighbour.utility.BackgroundService;
-import omar.mohamed.socialphotoneighbour.utility.ImageInfo;
-import omar.mohamed.socialphotoneighbour.utility.MyItem;
-
 public class PhotoMapFragment extends SupportMapFragment implements LocationListener,
         OnMyLocationButtonClickListener,
         OnMapReadyCallback,

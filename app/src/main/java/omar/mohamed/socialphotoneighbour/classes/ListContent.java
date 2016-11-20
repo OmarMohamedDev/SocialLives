@@ -8,12 +8,12 @@ import java.util.Map;
 public class ListContent {
 
   /**
-   * An array of sample (dummy) items.
+   * An array of list items.
    */
   public static List<ListItem> ITEMS = new ArrayList<ListItem>();
 
   /**
-   * A map of sample (dummy) items, by ID.
+   * A map of list items, by ID.
    */
   public static Map<String, ListItem> ITEM_MAP = new HashMap<String, ListItem>();
 
@@ -29,7 +29,7 @@ public class ListContent {
   }
 
   /**
-   * A dummy item representing a piece of content.
+   * A list item representing the his own content
    */
   public static class ListItem {
     public String id;

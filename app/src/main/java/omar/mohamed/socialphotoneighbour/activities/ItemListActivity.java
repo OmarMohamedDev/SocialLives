@@ -1,19 +1,25 @@
 package omar.mohamed.socialphotoneighbour.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -25,6 +31,7 @@ import com.google.android.gms.location.LocationServices;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import omar.mohamed.socialphotoneighbour.classes.Callbacks;
 import omar.mohamed.socialphotoneighbour.classes.ImageInfo;
 import omar.mohamed.socialphotoneighbour.fragments.ItemDetailFragment;
 import omar.mohamed.socialphotoneighbour.fragments.ItemListFragment;
@@ -46,7 +53,7 @@ import omar.mohamed.socialphotoneighbour.services.BackgroundService;
  * <p>
  */
 public class ItemListActivity extends AppCompatActivity implements
-        ItemListFragment.Callbacks,
+        Callbacks,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
@@ -77,6 +84,8 @@ public class ItemListActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
         mServiceIntent = new Intent(this, BackgroundService.class);
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#B71C1C"))); // set your desired color
 
         // Restore preferences
         settings = getSharedPreferences(CHECKBOX_VALUE, 0);
@@ -120,21 +129,6 @@ public class ItemListActivity extends AppCompatActivity implements
 
 
     }
-
-    protected boolean isPlayServicesAvailable() {
-        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
-        int result = googleAPI.isGooglePlayServicesAvailable(this);
-        if(result != ConnectionResult.SUCCESS) {
-            if(googleAPI.isUserResolvableError(result)) {
-                googleAPI.getErrorDialog(this, result,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            }
-            return false;
-        }
-        return true;
-
-    }
-
 
     @Override
     protected void onStart() {
@@ -183,7 +177,7 @@ public class ItemListActivity extends AppCompatActivity implements
     }
 
     /**
-     * Callback method from {@link ItemListFragment.Callbacks} indicating that the
+     * Callback method from {@link omar.mohamed.socialphotoneighbour.classes.Callbacks} indicating that the
      * item with the given ID was selected.
      * @throws IOException Input/Output Exception
      */

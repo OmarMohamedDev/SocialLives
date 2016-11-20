@@ -1,6 +1,8 @@
 package omar.mohamed.socialphotoneighbour.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -30,6 +32,7 @@ public class ItemDetailActivity extends AppCompatActivity {
 
     // Show the Up button in the action bar.
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#B71C1C"))); // set your desired color
 
     // savedInstanceState is non-null when there is fragment state
     // saved from previous configurations of this activity

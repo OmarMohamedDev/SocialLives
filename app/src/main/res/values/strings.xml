@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Social Photo Neighbour</string>
-    <string name="title_item_detail">Social Photo Neighbour </string>
+    <string name="app_name">Social Lives</string>
+    <string name="title_item_detail">Social Lives</string>
     <string name="search_images">Search new images</string>
     <string name="title_full_screen">Fullscreen View</string>
     <string name="image_information">Here i will show the image information</string>

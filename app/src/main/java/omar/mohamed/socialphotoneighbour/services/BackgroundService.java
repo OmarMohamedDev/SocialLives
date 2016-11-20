@@ -1,4 +1,4 @@
-package omar.mohamed.socialphotoneighbour;
+package omar.mohamed.socialphotoneighbour.services;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -35,6 +35,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
+
+import omar.mohamed.socialphotoneighbour.classes.ImageInfo;
+import omar.mohamed.socialphotoneighbour.activities.ItemListActivity;
+import omar.mohamed.socialphotoneighbour.R;
+import omar.mohamed.socialphotoneighbour.classes.SearchParametersModified;
 
 public class  BackgroundService extends IntentService {
 

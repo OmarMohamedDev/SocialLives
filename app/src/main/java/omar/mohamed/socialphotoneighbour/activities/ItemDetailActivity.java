@@ -1,4 +1,4 @@
-package omar.mohamed.socialphotoneighbour;
+package omar.mohamed.socialphotoneighbour.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import omar.mohamed.socialphotoneighbour.fragments.ItemDetailFragment;
+import omar.mohamed.socialphotoneighbour.fragments.PhotoGalleryFragment;
+import omar.mohamed.socialphotoneighbour.fragments.PhotoMapFragment;
+import omar.mohamed.socialphotoneighbour.R;
 
 /**
  * An activity representing a single Item detail screen. This activity is only

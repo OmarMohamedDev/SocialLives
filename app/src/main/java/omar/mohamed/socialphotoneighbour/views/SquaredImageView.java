@@ -1,4 +1,4 @@
-package omar.mohamed.socialphotoneighbour;
+package omar.mohamed.socialphotoneighbour.views;
 
 import android.content.Context;
 import android.widget.ImageView;

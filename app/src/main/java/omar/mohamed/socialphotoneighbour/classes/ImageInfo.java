@@ -1,4 +1,4 @@
-package omar.mohamed.socialphotoneighbour;
+package omar.mohamed.socialphotoneighbour.classes;
 
 import java.util.Date;
 
@@ -11,7 +11,7 @@ public class ImageInfo {
     private Date dateUpload;
     private String ownerName;
     
-    ImageInfo(String id, String title, String image, String description, Date dateTaken,
+    public ImageInfo(String id, String title, String image, String description, Date dateTaken,
               Date dateUpload, String ownerName){
       this.id = id;
       this.title = title;

@@ -1,4 +1,4 @@
-package omar.mohamed.socialphotoneighbour;
+package omar.mohamed.socialphotoneighbour.classes;
 
 import java.util.ArrayList;
 import java.util.HashMap;

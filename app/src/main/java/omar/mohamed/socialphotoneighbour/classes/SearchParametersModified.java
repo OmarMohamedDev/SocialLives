@@ -1,4 +1,4 @@
-package omar.mohamed.socialphotoneighbour;
+package omar.mohamed.socialphotoneighbour.classes;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-class SearchParametersModified {
+public class SearchParametersModified {
 
     private String groupId;
     private String woeId;
@@ -45,7 +45,7 @@ class SearchParametersModified {
         }
     };
 
-    SearchParametersModified() {
+    public SearchParametersModified() {
 
     }
 
@@ -60,7 +60,7 @@ class SearchParametersModified {
      * @see com.googlecode.flickrjandroid.Flickr#ACCURACY_CITY
      * @see com.googlecode.flickrjandroid.Flickr#ACCURACY_STREET
      */
-    void setAccuracy(int accuracy) {
+    public void setAccuracy(int accuracy) {
         this.accuracy = accuracy;
     }
 
@@ -83,51 +83,51 @@ class SearchParametersModified {
      *
      * @param hasGeo has geo coordinates
      */
-    void setHasGeo(boolean hasGeo) {
+    public void setHasGeo(boolean hasGeo) {
         this.hasGeo = hasGeo;
     }
 
-    private boolean getHasGeo() {
+    public boolean getHasGeo() {
         return hasGeo;
     }
 
-    private String[] getTags() {
+    public String[] getTags() {
         return tags;
     }
 
-    private String getTagMode() {
+    public String getTagMode() {
         return tagMode;
     }
 
-    String getText() {
+    public String getText() {
         return text;
     }
 
-    void setText(String text) {
+    public void setText(String text) {
         this.text = text;
     }
 
-    private Date getMinUploadDate() {
+    public Date getMinUploadDate() {
         return minUploadDate;
     }
 
-    private Date getMaxUploadDate() {
+    public Date getMaxUploadDate() {
         return maxUploadDate;
     }
 
-    private Date getMinTakenDate() {
+    public Date getMinTakenDate() {
         return minTakenDate;
     }
 
-    private Date getMaxTakenDate() {
+    public Date getMaxTakenDate() {
         return maxTakenDate;
     }
 
-    String getLicense() {
+    public String getLicense() {
         return license;
     }
 
-    void setLicense(String license) {
+    public void setLicense(String license) {
         this.license = license;
     }
     /**
@@ -142,23 +142,23 @@ class SearchParametersModified {
      * @see com.googlecode.flickrjandroid.photos.Extras#ALL_EXTRAS
      * @see com.googlecode.flickrjandroid.photos.Extras#MIN_EXTRAS
      */
-    void setExtras(Set<String> extras) {
+    public void setExtras(Set<String> extras) {
         this.extras = extras;
     }
 
-    private String[] getBBox() {
+    public String[] getBBox() {
         return bbox;
     }
 
-    private String getSafeSearch() {
+    public String getSafeSearch() {
         return safeSearch;
     }
 
-    private String getWoeId() {
+    public String getWoeId() {
         return woeId;
     }
 
-    private String getMedia() {
+    public String getMedia() {
         return media;
     }
 
@@ -168,7 +168,7 @@ class SearchParametersModified {
      *
      * @param media media type
      */
-    void setMedia(String media) throws FlickrException {
+    public void setMedia(String media) throws FlickrException {
         if (media.equals("all") ||
             media.equals("photos") ||
             media.equals("videos")
@@ -179,11 +179,11 @@ class SearchParametersModified {
         }
     }
 
-    private String getContacts() {
+    public String getContacts() {
         return contacts;
     }
 
-    Collection<Parameter> getAsParameters() {
+    public Collection<Parameter> getAsParameters() {
         List<Parameter> parameters = new ArrayList<>();
 
         String lat = getLatitude();
@@ -305,35 +305,35 @@ class SearchParametersModified {
         return parameters;
     }
 
-    void setLatitude(String lat) {
+    public void setLatitude(String lat) {
         latitude = lat;
     }
 
-    void setRadius(double r) {
+    public void setRadius(double r) {
         radius = r;
     }
 
-    void setLongitude(String lon) {
+    public void setLongitude(String lon) {
         longitude = lon;
     }
 
-    private String getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    private String getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    private double getRadius() {
+    public double getRadius() {
         return radius;
     }
 
-    private String getRadiusUnits() {
+    public String getRadiusUnits() {
         return radiusUnits;
     }
 
-    private String getUserId() {
+    public String getUserId() {
         return userId;
     }
 }

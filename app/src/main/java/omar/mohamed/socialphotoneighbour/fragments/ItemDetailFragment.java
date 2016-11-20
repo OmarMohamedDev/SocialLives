@@ -1,4 +1,4 @@
-package omar.mohamed.socialphotoneighbour;
+package omar.mohamed.socialphotoneighbour.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,6 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import omar.mohamed.socialphotoneighbour.classes.ListContent;
+import omar.mohamed.socialphotoneighbour.R;
+import omar.mohamed.socialphotoneighbour.activities.ItemDetailActivity;
+import omar.mohamed.socialphotoneighbour.activities.ItemListActivity;
 
 /**
  * A fragment representing a single Item detail screen. This fragment is either

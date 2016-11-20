@@ -1,4 +1,4 @@
-package omar.mohamed.socialphotoneighbour;
+package omar.mohamed.socialphotoneighbour.adapters;
 
 import android.content.Context;
 import android.view.View;
@@ -10,6 +10,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import omar.mohamed.socialphotoneighbour.classes.ImageInfo;
+import omar.mohamed.socialphotoneighbour.R;
+import omar.mohamed.socialphotoneighbour.views.SquaredImageView;
 
 import static android.widget.ImageView.ScaleType.CENTER_CROP;
 

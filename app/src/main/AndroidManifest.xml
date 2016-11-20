@@ -31,12 +31,12 @@
             android:value="AIzaSyCMKxH_EcA4zKJOGKpyAs7fBDCUjk0y0oE" />
 
         <service
-            android:name="omar.mohamed.socialphotoneighbour.BackgroundService"
+            android:name="omar.mohamed.socialphotoneighbour.services.BackgroundService"
             android:exported="false" />
 
         <activity
 
-            android:name="omar.mohamed.socialphotoneighbour.ItemListActivity"
+            android:name="omar.mohamed.socialphotoneighbour.activities.ItemListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,20 +45,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="omar.mohamed.socialphotoneighbour.ItemDetailActivity"
+            android:name="omar.mohamed.socialphotoneighbour.activities.ItemDetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName="omar.mohamed.socialphotoneighbour.ItemListActivity" >
+            android:parentActivityName="omar.mohamed.socialphotoneighbour.activities.ItemListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ItemListActivity" />
+                android:value=".activities.ItemListActivity" />
         </activity>
         <activity
-            android:name="omar.mohamed.socialphotoneighbour.FullScreenActivity"
+            android:name="omar.mohamed.socialphotoneighbour.activities.FullScreenActivity"
             android:label="@string/title_full_screen"
-            android:parentActivityName="omar.mohamed.socialphotoneighbour.ItemDetailActivity" >
+            android:parentActivityName="omar.mohamed.socialphotoneighbour.activities.ItemDetailActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ItemDetailActivity" />
+                android:value=".activities.ItemDetailActivity" />
         </activity>
     </application>
 

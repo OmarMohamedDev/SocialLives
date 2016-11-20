@@ -1,5 +1,6 @@
 package omar.mohamed.socialphotoneighbour;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -8,9 +9,11 @@ import android.widget.ListView;
 
 import java.io.IOException;
 
-
 /**
- * A list fragment representing a list of Items. 
+ * A list fragment representing a list of Items. This fragment also supports
+ * tablet devices by allowing list items to be given an 'activated' state upon
+ * selection. This helps indicate which item is currently being viewed in a
+ * {@link ItemDetailFragment}.
  * <p>
  * 
  */
@@ -88,13 +91,16 @@ public class ItemListFragment extends ListFragment {
       long id) {
     super.onListItemClick(listView, view, position, id);
 
-    // Notify the active callbacks interface (the activity, if the
-    // fragment is attached to one) that an item has been selected.
-    try {
-      mCallbacks.onItemSelected(ListContent.ITEMS.get(position).id);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+      try {
+        Thread.sleep(1200);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+
+    // Start the detail activity for the selected item ID.
+    Intent detailIntent = new Intent(getContext(), ItemDetailActivity.class);
+    detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
+    startActivity(detailIntent);
   }
 
   @Override

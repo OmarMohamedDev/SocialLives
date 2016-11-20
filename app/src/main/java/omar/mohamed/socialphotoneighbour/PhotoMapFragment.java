@@ -40,6 +40,7 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+
 public class PhotoMapFragment extends SupportMapFragment implements LocationListener,
         OnMyLocationButtonClickListener,
         OnMapReadyCallback,

@@ -27,7 +27,17 @@ import java.util.ArrayList;
 
 
 /**
- * An activity representing a list of Items.
+ * An activity representing a list of Items. This activity has different
+ * presentations for handset and tablet-size devices. On handsets, the activity
+ * presents a list of items, which when touched, lead to a
+ * {@link ItemDetailActivity} representing item details. On tablets, the
+ * activity presents the list of items and item details side-by-side using two
+ * vertical panes.
+ * <p>
+ * The activity makes heavy use of fragments. The list of items is a
+ * {@link ItemListFragment} and the item details (if present) is a
+ * {@link ItemDetailFragment}.
+ * <p>
  */
 public class ItemListActivity extends AppCompatActivity implements
         ItemListFragment.Callbacks,
@@ -56,30 +66,11 @@ public class ItemListActivity extends AppCompatActivity implements
     public static ArrayList<ImageInfo> closestImagesList;
     private Intent mServiceIntent;
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private boolean mTwoPane;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
         mServiceIntent = new Intent(this, BackgroundService.class);
-
-        if (findViewById(R.id.item_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            ((ItemListFragment) getSupportFragmentManager().findFragmentById(
-                    R.id.item_list)).setActivateOnItemClick(true);
-        }
 
         // Restore preferences
         settings = getSharedPreferences(CHECKBOX_VALUE, 0);
@@ -202,20 +193,10 @@ public class ItemListActivity extends AppCompatActivity implements
             firstTime = false;
         }
 
-        if (Integer.parseInt(id) == 1) {
-            PhotoGalleryFragment.actualImagesList = closestImagesList;
-            PhotoGalleryFragment fragment = new PhotoGalleryFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment).commit();
-        } else {
-            if (isPlayServicesAvailable()) {
-                PhotoMapFragment fragment = new PhotoMapFragment();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.item_detail_container, fragment).commit();
-            } else
-                throw new IOException("Google Play Service not available");
-        }
-
+        // Start the detail activity for the selected item ID.
+        Intent detailIntent = new Intent(this, ItemDetailActivity.class);
+        detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
+        startActivity(detailIntent);
 
     }
 

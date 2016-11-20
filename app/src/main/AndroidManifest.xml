@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="omar.mohamed.socialphotoneighbour.onepane.ItemDetailActivity"
+            android:name="omar.mohamed.socialphotoneighbour.ItemDetailActivity"
             android:label="@string/title_item_detail"
             android:parentActivityName="omar.mohamed.socialphotoneighbour.ItemListActivity" >
             <meta-data
@@ -55,10 +55,10 @@
         <activity
             android:name="omar.mohamed.socialphotoneighbour.FullScreenActivity"
             android:label="@string/title_full_screen"
-            android:parentActivityName="omar.mohamed.socialphotoneighbour.onepane.ItemDetailActivity" >
+            android:parentActivityName="omar.mohamed.socialphotoneighbour.ItemDetailActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".onepane.ItemDetailActivity" />
+                android:value=".ItemDetailActivity" />
         </activity>
     </application>
 

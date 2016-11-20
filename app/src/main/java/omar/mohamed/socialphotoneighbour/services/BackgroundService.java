@@ -52,26 +52,20 @@ public class  BackgroundService extends IntentService {
   protected static ArrayList<ImageInfo> resultList;
   public static final String API_KEY = "01bd8e557c0167f56bbc1d82e5e6370e"; //$NON-NLS-1$
 
-    public BackgroundService() {
-        super("BackgroundService");
-    }
+  public BackgroundService() {
+      super("ReminderService");
+  }
 
-    public BackgroundService(String name, Context mContext) {
-        super(name);
-        this.mContext = mContext;
-    }
+  @Override
+  public void onCreate() {
+    super.onCreate();
 
+     mContext = getApplicationContext();
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        mContext = getApplicationContext();
-
-        if (mContext != null) {
+    if (mContext != null) {
             IMAGE_NOT_FOUND = mContext.getResources().getString(R.string.images_not_found);
-        }
-    }
+     }
+  }
 
 
     @Override
@@ -106,7 +100,7 @@ public class  BackgroundService extends IntentService {
     } catch (FlickrException e1) {
       e1.printStackTrace();
     }
-    searchParam.setAccuracy(16);
+    searchParam.setAccuracy(11);
     
     //Method that look for the flickr's images closest to the user
     //N.B. I'am not using the official library method to get the images

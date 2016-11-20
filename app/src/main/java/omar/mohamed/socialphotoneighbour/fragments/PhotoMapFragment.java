@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -65,13 +64,18 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
     public static final String METHOD_GET_LOCATION = "flickr.photos.geo.getLocation";
     private final int REQUEST_PERMISSION_LOCATION_FINE = 1;
     public static final String API_KEY = "01bd8e557c0167f56bbc1d82e5e6370e"; //$NON-NLS-1$
-
+    /**
+     * Used  at the startup or when the app is paused to guide the user to his current location
+     * and provide a smother UX
+     */
+    private boolean centerLocationIfNeeded = true;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
         actualImagesList = ItemListActivity.closestImagesList;
         mMapFragment = this;
+        centerLocationIfNeeded = true;
         mMapFragment.getMapAsync(this);
 
     }
@@ -81,7 +85,7 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.        // Add cluster items (markers) to the cluster manager.
         if (actualImagesList != null) {
-            lookAroundForNewMarkers(actualImagesList.subList(0,10));
+            lookAroundForNewMarkers(actualImagesList);
         } else {
             Toast.makeText(mContext,
                     "No photo found. Please try to move to a different psysical location",
@@ -252,7 +256,12 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
     @Override
     public void onLocationChanged(Location location) {
         setUpClusterer();
-        moveCameraToCurrentPosition(location);
+
+        if(centerLocationIfNeeded) {
+            moveCameraToCurrentPosition(location);
+            centerLocationIfNeeded = false;
+
+        }
     }
 
     private void moveCameraToCurrentPosition(Location currentLocation){

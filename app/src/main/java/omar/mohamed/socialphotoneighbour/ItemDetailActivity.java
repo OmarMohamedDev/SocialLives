@@ -50,7 +50,7 @@ public class ItemDetailActivity extends AppCompatActivity {
       }
 
       FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-      ft.add(R.id.item_detail_container,fragment);
+      ft.replace(R.id.item_detail_container,fragment);
       ft.commit();
       
           

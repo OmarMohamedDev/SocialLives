@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import java.io.IOException;
 
+import omar.mohamed.socialphotoneighbour.R;
 import omar.mohamed.socialphotoneighbour.classes.ListContent;
 import omar.mohamed.socialphotoneighbour.activities.ItemDetailActivity;
 
@@ -73,7 +74,7 @@ public class ItemListFragment extends ListFragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setListAdapter(new ArrayAdapter<>(getActivity(),
-        android.R.layout.simple_list_item_activated_1, android.R.id.text1,
+            R.layout.cardview_item_list, R.id.card_view_item_list_title,
         ListContent.ITEMS));
   }
 

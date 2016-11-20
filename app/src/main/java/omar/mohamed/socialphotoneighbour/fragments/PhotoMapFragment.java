@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,15 +13,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
 import com.googlecode.flickrjandroid.FlickrException;
 import com.googlecode.flickrjandroid.Parameter;
@@ -40,10 +41,9 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import omar.mohamed.socialphotoneighbour.activities.ItemListActivity;
 import omar.mohamed.socialphotoneighbour.classes.ImageInfo;
 import omar.mohamed.socialphotoneighbour.classes.MyItem;
-import omar.mohamed.socialphotoneighbour.R;
-import omar.mohamed.socialphotoneighbour.activities.ItemListActivity;
 import omar.mohamed.socialphotoneighbour.services.BackgroundService;
 
 
@@ -64,7 +64,6 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
     private Transport transport;
     public static final String METHOD_GET_LOCATION = "flickr.photos.geo.getLocation";
     private final int REQUEST_PERMISSION_LOCATION_FINE = 1;
-    private boolean mLocationPermissionGranted;
     public static final String API_KEY = "01bd8e557c0167f56bbc1d82e5e6370e"; //$NON-NLS-1$
 
     @Override
@@ -73,9 +72,31 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
         mContext = getContext();
         actualImagesList = ItemListActivity.closestImagesList;
         mMapFragment = this;
-        mClusterManager = new ClusterManager<>(mContext, mMapView);
         mMapFragment.getMapAsync(this);
 
+    }
+
+    private void setUpClusterer() {
+
+        // Point the map's listeners at the listeners implemented by the cluster
+        // manager.        // Add cluster items (markers) to the cluster manager.
+        if (actualImagesList != null) {
+            lookAroundForNewMarkers(actualImagesList.subList(0,10));
+        } else {
+            Toast.makeText(mContext,
+                    "No photo found. Please try to move to a different psysical location",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+
+        mMapView.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                mClusterManager.cluster();
+            }
+        });
+
+        mMapView.setOnMarkerClickListener(mClusterManager);
     }
 
     @Override
@@ -88,9 +109,7 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
                 int grantResult = grantResults[i];
 
                 if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        mLocationPermissionGranted = true;
-                    } else {
+                    if (!(grantResult == PackageManager.PERMISSION_GRANTED)) {
                         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_LOCATION_FINE);
                     }
                 }
@@ -101,8 +120,9 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMapView = googleMap;
-
-        mMapView.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        // Initialize the manager with the context and the map.
+        // (Activity extends context, so we can pass 'this' in the constructor.)
+        mClusterManager = new ClusterManager<>(mContext, mMapView);
 
         if (ActivityCompat.checkSelfPermission(mContext,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -131,48 +151,13 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
             }
         }
 
-        if(mLocationPermissionGranted) {
+        mMapView.setMyLocationEnabled(true);
+        mMapView.setBuildingsEnabled(true);
+        mMapView.setIndoorEnabled(false);
+        mMapView.getUiSettings().setZoomControlsEnabled(true);
+        mMapView.getUiSettings().setMyLocationButtonEnabled(true);
 
-            mMapView.setMyLocationEnabled(true);
-            mMapView.setBuildingsEnabled(true);
-            mMapView.setIndoorEnabled(false);
-            mMapView.getUiSettings().setZoomControlsEnabled(true);
-            mMapView.getUiSettings().setMyLocationButtonEnabled(true);
-
-            mMapView.getUiSettings().setMyLocationButtonEnabled(true);
-            LocationManager lm = (LocationManager) mContext.getSystemService(
-                    Context.LOCATION_SERVICE);
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (location != null) {
-                double longitude = location.getLongitude();
-                double latitude = location.getLatitude();
-                mCurrentLocation = new LatLng(latitude, longitude);
-
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(mCurrentLocation)  // Sets the center of the map to the user location
-                        .zoom(80)                   // Sets the zoom
-                        .tilt(30)                   // Sets the tilt of the camera to 30 degrees
-                        .build();                   // Creates a CameraPosition from the builder
-                mMapView.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            }
-
-            mMapView.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
-                @Override
-                public void onCameraIdle() {
-                    mClusterManager.cluster();
-                }
-            });
-
-            if (actualImagesList != null) {
-                lookAroundForNewMarkers(actualImagesList);
-            } else {
-
-            }
-
-        } else {
-            Toast.makeText(mContext, R.string.error_my_location_permissions_not_granted,
-                    Toast.LENGTH_SHORT).show();
-        }
+        setUpClusterer();
 
     }
 
@@ -192,9 +177,6 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
 
             mMapFragment.getMapAsync(this);
         }
-
-        if (!(actualImagesList == null))
-            lookAroundForNewMarkers(actualImagesList);
 
     }
 
@@ -226,7 +208,13 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
-    public void lookAroundForNewMarkers(final ArrayList<ImageInfo> actualImagesList) {
+    private void addMarker(MyItem myItem){
+        mMapView.addMarker(new MarkerOptions()
+                .position(myItem.getPosition())
+                .title(myItem.getId()));
+    }
+
+    public void lookAroundForNewMarkers(final List<ImageInfo> actualImagesList) {
         // put a pin in the map for every image received
 
         //Verify if there are no image close to the user or the image, in this session,
@@ -243,13 +231,6 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
-
-                    if (tempGeoDataContainer != null)
-                        if(mClusterManager != null) {
-                            mClusterManager.addItem(new MyItem(
-                                    new LatLng(tempGeoDataContainer.getLatitude(),
-                                            tempGeoDataContainer.getLongitude())));
-                        }
                         
                     Log.d("Test", "Is inside onLocationChanged - ending handling the image"
                             + imageIndex.getTitle());
@@ -257,18 +238,28 @@ public class PhotoMapFragment extends SupportMapFragment implements LocationList
                 }
             }
         }).start();
+
+        if (tempGeoDataContainer != null)
+            if(mClusterManager != null) {
+                MyItem myItem = new MyItem(
+                        new LatLng(tempGeoDataContainer.getLatitude(),
+                                tempGeoDataContainer.getLongitude()));
+                addMarker(myItem);
+                mClusterManager.addItem(myItem);
+            }
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        setUpClusterer();
+        moveCameraToCurrentPosition(location);
+    }
 
-        if(location != null) {
-            double dLatitude = location.getLatitude();
-            double dLongitude = location.getLongitude();
+    private void moveCameraToCurrentPosition(Location currentLocation){
+        mCurrentLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
-            mMapView.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(dLatitude, dLongitude), 8));
-        }
-
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mCurrentLocation, 16);
+        mMapView.animateCamera(cameraUpdate);
     }
 
     ///Get the geo data (latitude and longitude and the accuracy level) for a photo.

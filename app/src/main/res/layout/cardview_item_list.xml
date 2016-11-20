@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="#F44336"
+    card_view:cardUseCompatPadding="true"
     card_view:cardCornerRadius="8dp"
     card_view:cardElevation="8dp">
 

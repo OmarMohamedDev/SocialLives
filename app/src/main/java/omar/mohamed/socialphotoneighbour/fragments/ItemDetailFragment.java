@@ -1,6 +1,7 @@
 package omar.mohamed.socialphotoneighbour.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,10 +60,14 @@ public class ItemDetailFragment extends Fragment {
       ((TextView) rootView.findViewById(R.id.item_detail))
           .setText(mItem.content);
     }
-    setHasOptionsMenu(true); 
+    //setHasOptionsMenu(true);
 
     return rootView;
   }
-  
-  
+
+  @Override
+  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+
+  }
 }

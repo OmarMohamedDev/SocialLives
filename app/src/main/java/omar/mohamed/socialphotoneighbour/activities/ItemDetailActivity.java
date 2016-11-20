@@ -1,5 +1,6 @@
 package omar.mohamed.socialphotoneighbour.activities;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +15,7 @@ import omar.mohamed.socialphotoneighbour.fragments.ItemDetailFragment;
 import omar.mohamed.socialphotoneighbour.fragments.PhotoGalleryFragment;
 import omar.mohamed.socialphotoneighbour.fragments.PhotoMapFragment;
 import omar.mohamed.socialphotoneighbour.R;
+import omar.mohamed.socialphotoneighbour.services.BackgroundService;
 
 /**
  * An activity representing a single Item detail screen. This activity is only
@@ -30,8 +32,13 @@ public class ItemDetailActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_item_detail);
 
+    //TODO:Temporary code block used to start the image discovery until we fix menu and map
+    Intent serviceIntent = new Intent(this, BackgroundService.class);
+    startService(serviceIntent);
+    //
+
     // Show the Up button in the action bar.
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#B71C1C"))); // set your desired color
 
     // savedInstanceState is non-null when there is fragment state
@@ -49,7 +56,7 @@ public class ItemDetailActivity extends AppCompatActivity {
       // using a fragment transaction.
       Intent intent = getIntent();
       long id = intent.getLongExtra("item_id",-1);
-      if(id == 0) {
+      if(id <= 0 ) { //TODO: Temporary <=, put == when fix map mode
         fragment = new PhotoGalleryFragment();
       }
       else {

@@ -3,6 +3,7 @@ package omar.mohamed.socialphotoneighbour.services;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.googlecode.flickrjandroid.FlickrException;
@@ -153,6 +154,9 @@ public class  BackgroundService extends IntentService {
         
         ItemListActivity.closestImagesList = resultList;
 
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
+        Intent i = new Intent("TAG_REFRESH");
+        lbm.sendBroadcast(i);
   }
 
     private List<Photo> imageSearch(SearchParametersModified searchParam, int perPage, int page)
@@ -217,6 +221,7 @@ public class  BackgroundService extends IntentService {
       conn.connect();
       return conn.getInputStream();
   }
+
 
 
 }

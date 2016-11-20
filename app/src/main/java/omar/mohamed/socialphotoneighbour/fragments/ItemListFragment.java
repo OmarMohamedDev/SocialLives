@@ -7,12 +7,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.io.IOException;
-
 import omar.mohamed.socialphotoneighbour.R;
-import omar.mohamed.socialphotoneighbour.classes.Callbacks;
-import omar.mohamed.socialphotoneighbour.classes.ListContent;
 import omar.mohamed.socialphotoneighbour.activities.ItemDetailActivity;
+import omar.mohamed.socialphotoneighbour.classes.ListContent;
 
 /**
  * A list fragment representing a list of Items. This fragment also supports
@@ -38,6 +35,7 @@ public class ItemListFragment extends ListFragment {
     setListAdapter(new ArrayAdapter<>(getActivity(),
             R.layout.cardview_item_list, R.id.card_view_item_list_title,
         ListContent.ITEMS));
+
   }
 
     @Override

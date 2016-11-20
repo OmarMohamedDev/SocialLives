@@ -1,8 +1,6 @@
 package omar.mohamed.socialphotoneighbour.activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -15,15 +13,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -31,11 +26,11 @@ import com.google.android.gms.location.LocationServices;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import omar.mohamed.socialphotoneighbour.R;
 import omar.mohamed.socialphotoneighbour.classes.Callbacks;
 import omar.mohamed.socialphotoneighbour.classes.ImageInfo;
 import omar.mohamed.socialphotoneighbour.fragments.ItemDetailFragment;
 import omar.mohamed.socialphotoneighbour.fragments.ItemListFragment;
-import omar.mohamed.socialphotoneighbour.R;
 import omar.mohamed.socialphotoneighbour.services.BackgroundService;
 
 
@@ -58,8 +53,6 @@ public class ItemListActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
 
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1;
-    private static boolean firstTime = true;
     public static final String CHECKBOX_VALUE = "CheckboxValue";
     //Geolocation variables
     private static final int MILLISECONDS_PER_SECOND = 1000;
@@ -127,7 +120,12 @@ public class ItemListActivity extends AppCompatActivity implements
                 .addOnConnectionFailedListener(mOnConnectionFailedListener)
                 .build();
 
-
+        //TODO: Temporary work around to start immediately the gallery, waiting to build drawer for menu e fix map
+        try {
+            onItemSelected("1");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -183,15 +181,6 @@ public class ItemListActivity extends AppCompatActivity implements
      */
     @Override
     public void onItemSelected(String id) throws IOException {
-        //To give to the background service the time to find the photos
-        if (firstTime) {
-            try {
-                Thread.sleep(1200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            firstTime = false;
-        }
 
         // Start the detail activity for the selected item ID.
         Intent detailIntent = new Intent(this, ItemDetailActivity.class);

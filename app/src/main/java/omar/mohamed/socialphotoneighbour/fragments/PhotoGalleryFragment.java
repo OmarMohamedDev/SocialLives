@@ -1,8 +1,12 @@
 package omar.mohamed.socialphotoneighbour.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +30,7 @@ public class PhotoGalleryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
      }
     
     @Override
@@ -35,10 +40,10 @@ public class PhotoGalleryFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_gallery, container,
             false);
     }
-    
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+
+
+    MyReceiver r;
+    public void refresh() {
         GridView gv = (GridView) getView().findViewById(R.id.grid_view);
         actualImagesList = ItemListActivity.closestImagesList;
         if (gv != null) {
@@ -61,6 +66,25 @@ public class PhotoGalleryFragment extends Fragment {
             }
         } else {
             Toast.makeText(getContext(), R.string.grid_view_not_found, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(r);
+    }
+
+    public void onResume() {
+        super.onResume();
+        r = new MyReceiver();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(r,
+                new IntentFilter("TAG_REFRESH"));
+    }
+
+    private class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            refresh();
         }
     }
  }

@@ -20,7 +20,7 @@ public class ListContent {
   static {
     // Add 3 sample items.
     addItem(new ListItem("1", "Photos around you"));
-    addItem(new ListItem("2", "Where am I?"));
+  //  addItem(new ListItem("2", "Where am I?"));
   }
 
   private static void addItem(ListItem item) {

@@ -8,8 +8,8 @@ android {
         applicationId "omar.mohamed.socialphotoneighbour"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 3
-        versionName "2.1"
+        versionCode 4
+        versionName "3"
     }
     buildTypes {
         release {

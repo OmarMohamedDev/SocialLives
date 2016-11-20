@@ -6,6 +6,6 @@
 	        android:title="@string/search_images"
 			android:icon="@android:drawable/ic_menu_preferences"
 			android:checked="true"
-	        SnapGallery:showAsAction="ifRoom"/>
+	        SnapGallery:showAsAction="never"/>
     </group>
 </menu> 

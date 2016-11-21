@@ -1,5 +1,5 @@
 # SocialPhotoNeighbour
-![Screenshot 1](https://www.dropbox.com/s/j69p1esgo1kgcws/1.png?dl=0) ![Screenshot 2](https://www.dropbox.com/s/e6i460rt2rgag8a/2.png?dl=0) ![Screenshot 3](https://www.dropbox.com/s/6c2vw38c5bunpug/3.png?dl=0) ![Screenshot 4](https://www.dropbox.com/s/mqwg6fswnsmmu3d/4.png?dl=0)
+![Screenshot 1](https://s18.postimg.org/vno4dvhjd/image.png) ![Screenshot 2](https://s18.postimg.org/olq6rodxl/image.png) ![Screenshot 3](https://s18.postimg.org/ghi2mxrih/image.png) ![Screenshot 4](https://s18.postimg.org/jpmjzzds9/image.png)
 
 Android Application that permits to retrieve the public photo of Flickr users in the surroundings and display them in a Gallery, showing also a map with pins that locate the publication location of each of them. 
 

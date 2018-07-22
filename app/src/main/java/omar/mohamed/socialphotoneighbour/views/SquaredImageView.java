@@ -1,7 +1,7 @@
 package omar.mohamed.socialphotoneighbour.views;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 
 public class SquaredImageView  extends AppCompatImageView {
 

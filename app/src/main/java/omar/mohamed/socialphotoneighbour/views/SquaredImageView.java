@@ -1,9 +1,9 @@
 package omar.mohamed.socialphotoneighbour.views;
 
 import android.content.Context;
-import android.widget.ImageView;
+import android.support.v7.widget.AppCompatImageView;
 
-public class SquaredImageView  extends ImageView {
+public class SquaredImageView  extends AppCompatImageView {
 
 
   public SquaredImageView(Context context) {

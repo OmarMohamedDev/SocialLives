@@ -1,12 +1,12 @@
 package omar.mohamed.socialphotoneighbour.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -21,10 +21,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
 
-import omar.mohamed.socialphotoneighbour.fragments.PhotoGalleryFragment;
 import omar.mohamed.socialphotoneighbour.R;
+import omar.mohamed.socialphotoneighbour.fragments.PhotoGalleryFragment;
 
-public class FullScreenActivity extends Activity {
+public class FullScreenActivity extends AppCompatActivity {
   private final String TAG = this.getClass().getSimpleName();
   private int index;
 

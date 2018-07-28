@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.util.Log
+import androidx.core.content.ContextCompat
 
 import com.googlecode.flickrjandroid.FlickrException
 import com.googlecode.flickrjandroid.Parameter
@@ -43,11 +44,13 @@ import omar.mohamed.socialphotoneighbour.classes.SearchParametersModified
 class BackgroundService : IntentService("ReminderService") {
     private var mContext: Context? = null
     private var IMAGE_NOT_FOUND: String? = null
+    private lateinit var apiKey: String
 
     override fun onCreate() {
         super.onCreate()
 
         mContext = applicationContext
+        apiKey = getString(R.string.flickr_api_key)
 
         if (mContext != null) {
             IMAGE_NOT_FOUND = mContext!!.resources.getString(R.string.images_not_found)
@@ -146,7 +149,7 @@ class BackgroundService : IntentService("ReminderService") {
     private fun imageSearch(searchParam: SearchParametersModified, perPage: Int, page: Int): MutableList<Photo> {
         val parameters = ArrayList<Parameter>()
         parameters.add(Parameter("method", METHOD_SEARCH))
-        parameters.add(Parameter("api_key", API_KEY))
+        parameters.add(Parameter("api_key", apiKey))
         parameters.addAll(searchParam.asParameters)
         if (perPage > 0) {
             parameters.add(Parameter("per_page", "" + perPage))
@@ -170,7 +173,6 @@ class BackgroundService : IntentService("ReminderService") {
         val METHOD_SEARCH = "flickr.photos.search"
         protected var photos: MutableList<Photo>? = null
         protected lateinit var resultList: ArrayList<ImageInfo>
-        val API_KEY = "01bd8e557c0167f56bbc1d82e5e6370e" //$NON-NLS-1$
 
         @Throws(IOException::class, JSONException::class)
         fun getModified(path: String, parameters: MutableList<Parameter>): Response {

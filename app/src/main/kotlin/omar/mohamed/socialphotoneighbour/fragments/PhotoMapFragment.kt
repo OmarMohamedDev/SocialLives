@@ -29,6 +29,7 @@ import com.googlecode.flickrjandroid.REST
 import com.googlecode.flickrjandroid.Response
 import com.googlecode.flickrjandroid.Transport
 import com.googlecode.flickrjandroid.photos.GeoData
+import omar.mohamed.socialphotoneighbour.R
 
 import org.json.JSONException
 import org.json.JSONObject
@@ -55,6 +56,7 @@ class PhotoMapFragment : SupportMapFragment(), LocationListener, OnMyLocationBut
     private var tempGeoDataContainer: GeoData? = null
     private var transport: Transport? = null
     private val REQUEST_PERMISSION_LOCATION_FINE = 1
+    private lateinit var apiKey: String
     /**
      * Used  at the startup or when the app is paused to guide the user to his current location
      * and provide a smother UX
@@ -64,6 +66,7 @@ class PhotoMapFragment : SupportMapFragment(), LocationListener, OnMyLocationBut
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContext = getContext()
+        apiKey = getString(R.string.flickr_api_key)
         actualImagesList = ItemListActivity.closestImagesList
         mMapFragment = this
         centerLocationIfNeeded = true
@@ -253,7 +256,7 @@ class PhotoMapFragment : SupportMapFragment(), LocationListener, OnMyLocationBut
     fun getPhotoLocation(photoId: String?): GeoData {
         val parameters = ArrayList<Parameter>()
         parameters.add(Parameter("method", METHOD_GET_LOCATION))
-        parameters.add(Parameter("api_key", API_KEY))
+        parameters.add(Parameter("api_key", apiKey))
         parameters.add(Parameter("photo_id", photoId))
 
         try {
@@ -290,6 +293,5 @@ class PhotoMapFragment : SupportMapFragment(), LocationListener, OnMyLocationBut
     companion object {
         protected var actualImagesList: ArrayList<ImageInfo>? = null
         val METHOD_GET_LOCATION = "flickr.photos.geo.getLocation"
-        val API_KEY = "01bd8e557c0167f56bbc1d82e5e6370e" //$NON-NLS-1$
     }
 }
